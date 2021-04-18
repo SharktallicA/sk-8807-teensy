@@ -1,22 +1,22 @@
-volatile short currentData = 0;			// Currently read in data (bits shifted in from the right)
-volatile bool isMouseMove = false;		// If true, the input is a mouse move code and currentData represents the coordinates instead
-volatile int bitsRead = 0;				// Number of bits that have been read
-volatile bool readyRead = false;		// True if two bytes worth of data have been read in
-volatile bool toggle = true;			// Current value of the clock out pin - used to see when reads are clocked in on a logic analyzer
+volatile short currentData = 0;			    // Currently read in data (bits shifted in from the right)
+volatile bool isMouseMove = false;		  // If true, the input is a mouse move code and currentData represents the coordinates instead
+volatile int bitsRead = 0;				      // Number of bits that have been read
+volatile bool readyRead = false;		    // True if two bytes worth of data have been read in
+volatile bool toggle = true;			      // Current value of the clock out pin - used to see when reads are clocked in on a logic analyzer
 
-bool numKeyPressed = false;				// Set to the current state of the "Num" key - used for shifting to a different level
+bool numKeyPressed = false;				      // Set to the current state of the "Num" key - used for shifting to a different level
 
-IntervalTimer timer0;					// Used to trigger the reads on each byte
+IntervalTimer timer0;					          // Used to trigger the reads on each byte
 
-#define CLK_OUT_PIN 13					// Clock out: changes state when a bit is being read. Useful to debug timing with a logic analyzer. By default, the LED pin so it blinks when receiving
-#define DATA_PIN 6						// Data in: the output of the IR receiver module
-#define RECEIVER_GND_PIN 7				// Ground out: the ground supply for the IR receiver module (so you can just stick it in to any 3 contiguous pins)
-#define RECEIVER_VCC_PIN 8				// VCC out: the power supply for the IR receiver module
+#define CLK_OUT_PIN 13					        // Clock out: changes state when a bit is being read. Useful to debug timing with a logic analyzer. By default, the LED pin so it blinks when receiving
+#define DATA_PIN 6						          // Data in: the output of the IR receiver module
+#define RECEIVER_GND_PIN 7				      // Ground out: the ground supply for the IR receiver module (so you can just stick it in to any 3 contiguous pins)
+#define RECEIVER_VCC_PIN 8              // VCC out: the power supply for the IR receiver module
 
-#define SWAP_CTRL_NUM					// Swaps the Ctrl and Num key if this line is here (hint: they're the same size, so you can also pop them off and physically swap them)
+#define SWAP_CTRL_NUM                   // Swaps the Ctrl and Num key if this line is here (hint: they're the same size, so you can also pop them off and physically swap them)
 
-#define DEBUG_SERIAL					// Prints unknown codes to serial
-#define DEAD_KEY_DETECTION_US 500000	// Microseconds without receiving a valid IR code before pressed keys are released
+#define DEBUG_SERIAL                    // Prints unknown codes to serial
+#define DEAD_KEY_DETECTION_US 500000    // Microseconds without receiving a valid IR code before pressed keys are released
 
 void setup() {
 
@@ -417,7 +417,7 @@ bool pressKey(int keycode) {
 		keypress = MODIFIERKEY_GUI;
 		break;
 	case 0x817:
-		keypress = MODIFIERKEY_ALT;
+		keypress = numKeyPressed ? MODIFIERKEY_RIGHT_ALT : MODIFIERKEY_ALT;
 		break;
 	case 0x8897:
 		keypress = KEY_SPACE;
